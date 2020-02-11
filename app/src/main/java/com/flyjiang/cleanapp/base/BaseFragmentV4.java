@@ -11,6 +11,7 @@ import com.flyjiang.cleanapp.R;
 import com.flyjiang.cleanapp.utils.ToastUtil;
 import com.flyjiang.cleanapp.widget.loading.LoadingLayout;
 
+
 /**
  * 作者：flyjiang
  * 说明: 基于V4包的Fragment，为了使用FragmentPagerAdapter
@@ -42,7 +43,7 @@ public abstract class BaseFragmentV4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null) {
-            rootView = initView(inflater);
+            rootView = initLayoutView(inflater);
             }
            if(isUseLoading&&mLoadingLayout==null){
                    mLoadingLayout = (LoadingLayout) inflater.inflate(R.layout.loading_layout, null);
@@ -115,16 +116,19 @@ public abstract class BaseFragmentV4 extends Fragment {
     /**
      * 子类实现初始化View操作
      */
-    protected abstract View initView(LayoutInflater inflater);
+    private View initLayoutView(LayoutInflater inflater){
+        View view = inflater.inflate(onLayoutRes(),null);
+        initView(view);
+        initViewData();
+        return view;
+    }
 
-    /**
-     * 子类实现初始化View本地数据初始化
-     */
+    protected abstract int onLayoutRes();
+
+    public abstract void initView(View view);
+
     protected abstract void initViewData();
 
-    /**
-     * 子类实现初始化数据操作(子类自己调用)
-     */
     public abstract void initData();
 
     /**
